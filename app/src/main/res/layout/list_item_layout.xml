@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/root_list_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_movie_poster"
+        android:layout_width="136dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:padding="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="136dp" />
+
+    <TextView
+        android:id="@+id/tv_movie_title"
+        android:layout_width="wrap_content"
+        android:padding="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        tools:text="The title of te movie goes here" />
+
+    <TextView
+        android:id="@+id/tv_movie_genre"
+        android:layout_width="wrap_content"
+        android:padding="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        tools:text="The movie genre" />
+
+    <RatingBar
+        android:id="@+id/rb_movie_rating"
+        android:layout_width="wrap_content"
+        android:padding="4dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
+
+
+
+</LinearLayout>
