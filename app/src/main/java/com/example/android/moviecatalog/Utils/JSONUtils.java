@@ -2,8 +2,6 @@ package com.example.android.moviecatalog.Utils;
 
 import android.text.TextUtils;
 
-import com.example.android.moviecatalog.Movie;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

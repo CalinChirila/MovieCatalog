@@ -18,6 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.moviecatalog.Utils.JSONUtils;
+import com.example.android.moviecatalog.Utils.Movie;
+import com.example.android.moviecatalog.Utils.MovieAdapter;
 import com.example.android.moviecatalog.Utils.NetworkUtils;
 
 import java.net.URL;
