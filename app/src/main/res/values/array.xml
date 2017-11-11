@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_by_category">
+        <item>Most popular</item>
+        <item>Top rated</item>
+    </string-array>
+
+    <string-array name="sort_by_values">
+        <item>movie/popular</item>
+        <item>movie/top_rated</item>
+    </string-array>
+</resources>

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MovieCatalog</string>
+    <string name="cliche_plot_string">Plot: A cliche family moves into a cliche hunted cliche house and some cliches happen and they will die in a very cliche way…Unless…(cliche clickbait)</string>
+    <string name="sort_by">Sort by..</string>
+    <string name="settings">Settings</string>
+    <string name="key_sort_by">key_sort_by</string>
+    <string name="settings_label">Settings</string>
+    <string name="no_internet_connection_message">No internet connection</string>
+    <string name="the_movie_poster">The movie poster</string>
 </resources>

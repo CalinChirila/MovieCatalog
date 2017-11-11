@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context="com.example.android.moviecatalog.DetailsActivity">
+
+        <ImageView
+            android:id="@+id/iv_details_movie_poster"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/the_movie_poster"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tv_details_movie_title"
+            style="@style/DetailsActivityTVStyles"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            tools:text="Awesome movie title" />
+
+        <TextView
+            android:id="@+id/tv_details_movie_plot"
+            style="@style/DetailsActivityTVStyles"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            tools:text="@string/cliche_plot_string" />
+
+        <TextView
+            android:id="@+id/tv_details_movie_release_date"
+            style="@style/DetailsActivityTVStyles"
+            tools:text="66-66-666" />
+
+        <TextView
+            android:id="@+id/tv_details_movie_vote_average"
+            style="@style/DetailsActivityTVStyles"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="24sp"
+            tools:text="7.8" />
+
+    </LinearLayout>
+</ScrollView>
