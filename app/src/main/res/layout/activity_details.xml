@@ -1,50 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_dark">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context="com.example.android.moviecatalog.DetailsActivity">
+        android:layout_height="wrap_content">
 
+        <!-- The movie poster -->
         <ImageView
             android:id="@+id/iv_details_movie_poster"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/the_movie_poster"
-            android:scaleType="fitCenter" />
+            android:layout_width="@dimen/details_poster_width"
+            android:layout_height="@dimen/details_poster_height"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/poster_content_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/posternotfound" />
 
+        <!-- The movie title -->
         <TextView
             android:id="@+id/tv_details_movie_title"
-            style="@style/DetailsActivityTVStyles"
+            android:layout_width="194dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:textAlignment="center"
-            android:textSize="24sp"
-            tools:text="Awesome movie title" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+            app:layout_constraintEnd_toEndOf="@+id/iv_details_movie_poster"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_details_movie_poster"
+            tools:text="The Great Movie Title" />
 
-        <TextView
-            android:id="@+id/tv_details_movie_plot"
-            style="@style/DetailsActivityTVStyles"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            android:textStyle="italic"
-            tools:text="@string/cliche_plot_string" />
-
-        <TextView
-            android:id="@+id/tv_details_movie_release_date"
-            style="@style/DetailsActivityTVStyles"
-            tools:text="66-66-666" />
-
+        <!-- The movie's average score -->
         <TextView
             android:id="@+id/tv_details_movie_vote_average"
-            style="@style/DetailsActivityTVStyles"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textSize="24sp"
-            tools:text="7.8" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintBottom_toTopOf="@+id/iv_details_movie_poster"
+            app:layout_constraintEnd_toEndOf="@+id/iv_details_movie_poster"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_details_movie_poster"
+            tools:text="7.2" />
 
-    </LinearLayout>
+        <!-- The movie release date -->
+        <TextView
+            android:id="@+id/tv_details_movie_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_details_movie_poster"
+            app:layout_constraintEnd_toEndOf="@+id/iv_details_movie_poster"
+            app:layout_constraintStart_toEndOf="parent"
+            tools:text="12.12.2013" />
+
+        <!-- The add to favorites button -->
+        <ImageButton
+            android:id="@+id/button_add_to_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/add_to_favorites_description"
+            app:layout_constraintEnd_toStartOf="@+id/iv_details_movie_poster"
+            app:layout_constraintStart_toEndOf="@+id/iv_details_movie_poster"
+            app:layout_constraintTop_toBottomOf="@+id/iv_details_movie_poster"
+            />
+
+        <!-- The add to watchlist button -->
+        <Button
+            android:id="@+id/button_add_to_watch_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/add_to_watch_list_description"
+            android:text="@string/button_add_to_watch_list"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_details_movie_release_date"
+            app:layout_constraintStart_toEndOf="@+id/tv_details_movie_release_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_details_movie_release_date" />
+
+        <!-- The reviews button -->
+        <Button
+            android:id="@+id/button_reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/button_text_reviews"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_add_to_favorites"
+            app:layout_constraintStart_toEndOf="@+id/button_add_to_favorites"
+            android:layout_marginLeft="8dp" />
+
+        <!-- The watch trailer button -->
+        <Button
+            android:id="@+id/button_watch_trailer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/button_text_watch_trailer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_add_to_watch_list"
+            app:layout_constraintStart_toEndOf="@+id/button_add_to_watch_list" />
+
+        <!-- The movie plot -->
+        <TextView
+            android:id="@+id/tv_details_movie_plot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/button_reviews"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_add_to_favorites"
+            tools:text="@string/cliche_plot_string" />
+    </android.support.constraint.ConstraintLayout>
 </ScrollView>

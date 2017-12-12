@@ -18,6 +18,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     private Movie[] mMovieData;
 
+
     private final MovieAdapterOnClickHandler mClickHandler;
 
     public interface MovieAdapterOnClickHandler {
@@ -31,8 +32,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final ImageView mMoviePoster;
-        private final TextView mMovieTitle;
+        ImageView mMoviePoster;
+        TextView mMovieTitle;
+
 
         public MovieAdapterViewHolder(View view) {
             super(view);
@@ -64,7 +66,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         Movie currentMovie = mMovieData[position];
         String posterURLString = currentMovie.getMoviePoster();
 
-        Picasso.with(holder.mMoviePoster.getContext()).load(posterURLString).into(holder.mMoviePoster);
+
+        Picasso.with(holder.mMoviePoster.getContext())
+                .load(posterURLString)
+                .placeholder(R.drawable.posternotfound)
+                .error(R.drawable.posternotfound)
+                .into(holder.mMoviePoster);
+
         holder.mMovieTitle.setText(currentMovie.getMovieTitle());
 
     }

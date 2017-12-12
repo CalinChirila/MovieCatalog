@@ -8,8 +8,9 @@
         android:id="@+id/rv_catalog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/black"
         android:columnCount="2"
-        tools:context="com.example.android.moviecatalog.CatalogActivity">
+        tools:context="com.example.android.moviecatalog.Activities.CatalogActivity">
 
     </android.support.v7.widget.RecyclerView>
 

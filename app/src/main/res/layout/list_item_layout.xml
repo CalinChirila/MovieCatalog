@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/iv_movie_poster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/catalog_poster_width"
+        android:layout_height="@dimen/catalog_poster_height"
         android:layout_gravity="center_horizontal"
         android:contentDescription="@string/the_movie_poster"
         android:padding="4dp"
@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:padding="4dp"
+        android:textAlignment="center"
         android:textColor="@android:color/white"
         tools:text="The title of te movie goes here" />
 

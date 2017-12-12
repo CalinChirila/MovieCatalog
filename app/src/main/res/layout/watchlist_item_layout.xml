@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:id="@+id/watchlist_item_layout"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_watchlist_movie_poster"
+        android:layout_width="60dp"
+        android:contentDescription="@string/poster_content_description"
+        android:layout_height="84dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_margin="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_watchlist_movie_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Some long title here to see how it looks"
+        android:layout_gravity="center_vertical"
+        android:textAlignment="center"/>
+
+</LinearLayout>

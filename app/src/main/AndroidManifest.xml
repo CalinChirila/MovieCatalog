@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CatalogActivity">
+        <activity android:name=".Activities.CatalogActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,11 +21,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailsActivity"
-            android:parentActivityName=".CatalogActivity"/>
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".CatalogActivity"
-            android:label="@string/settings_label"/>
+            android:name=".Activities.DetailsActivity"
+            android:parentActivityName=".Activities.CatalogActivity" />
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:label="@string/settings_label"
+            android:parentActivityName=".Activities.CatalogActivity" />
+
+        <provider
+            android:name=".data.MovieContentProvider"
+            android:authorities="com.example.android.moviecatalog"
+            android:exported="false" />
+
+        <activity android:name=".Activities.WatchlistActivity" />
+        <activity android:name=".Activities.ReviewActivity"></activity>
     </application>
 
 </manifest>

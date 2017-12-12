@@ -1,10 +1,14 @@
 package com.example.android.moviecatalog.Utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Astraeus on 11/8/2017.
@@ -12,8 +16,26 @@ import org.json.JSONObject;
  */
 
 public class JSONUtils {
+    private static final String TAG = JSONUtils.class.getSimpleName();
 
     private static final String BASE_POSTER_URL_STRING = "https://image.tmdb.org/t/p/w185";
+    public static final String BASE_YOUTUBE_URL_STRING = "http://www.youtube.com/watch?v=";
+
+    public static String parseJsonForVideoId(String jsonVideos) throws JSONException {
+
+        if(jsonVideos == null || TextUtils.isEmpty(jsonVideos)){
+            return null;
+        }
+        String videoId;
+        JSONObject jsonRoot = new JSONObject(jsonVideos);
+        JSONArray resultsArray = jsonRoot.getJSONArray("results");
+        // Get the first video
+        JSONObject trailerObject = resultsArray.getJSONObject(0);
+
+        videoId = trailerObject.optString("key");
+
+        return videoId;
+    }
 
     /**
      * Parse the json response
@@ -21,18 +43,17 @@ public class JSONUtils {
      */
     public static Movie[] extractFeaturesFromJson(String jsonString) throws JSONException {
 
-        if(jsonString == null || TextUtils.isEmpty(jsonString)){
+        if (jsonString == null || TextUtils.isEmpty(jsonString)) {
             return null;
         }
 
-        Movie[] movieData = null ;
+        Movie[] movieData = null;
 
         JSONObject rootJsonObject = new JSONObject(jsonString);
         JSONArray resultsArray = rootJsonObject.optJSONArray("results");
 
 
-
-        if(resultsArray.length() != 0){
+        if (resultsArray.length() != 0) {
 
             movieData = new Movie[resultsArray.length()];
 
@@ -44,7 +65,7 @@ public class JSONUtils {
             // Release date
             // Plot
             // Rating
-            for (int i = 0; i < movieData.length; i++){
+            for (int i = 0; i < movieData.length; i++) {
                 JSONObject movieObject = resultsArray.optJSONObject(i);
 
 
@@ -57,6 +78,8 @@ public class JSONUtils {
                 String moviePlot = movieObject.optString("overview");
 
                 String movieReleaseDate = movieObject.optString("release_date");
+
+                int movieId = movieObject.optInt("id");
 
 
                 /**
@@ -76,6 +99,7 @@ public class JSONUtils {
                 movie.setMovieReleaseDate(movieReleaseDate);
                 movie.setMovieRating(movieRating);
                 movie.setMoviePoster(moviePosterString);
+                movie.setMovieId(movieId);
 
 
                 movieData[i] = movie;
@@ -83,5 +107,31 @@ public class JSONUtils {
             }
         }
         return movieData;
+    }
+
+    public static List<Review> parseJsonForReviews(String reviewsJson){
+        if(reviewsJson == null || TextUtils.isEmpty(reviewsJson)){
+            return null;
+        }
+
+        List<Review> reviewList = new ArrayList<>();
+        try{
+            JSONObject root = new JSONObject(reviewsJson);
+            JSONArray resultsArray = root.getJSONArray("results");
+
+            // Parse the entire results array
+            for(int i = 0; i < resultsArray.length(); i++){
+                JSONObject reviewObject = resultsArray.getJSONObject(i);
+
+                String author = reviewObject.getString("author");
+                String text = reviewObject.getString("content");
+
+                reviewList.add(new Review(author, text));
+            }
+            return reviewList;
+        } catch (JSONException e){
+            Log.e(TAG, "Problem parsing reviews json");
+            return null;
+        }
     }
 }

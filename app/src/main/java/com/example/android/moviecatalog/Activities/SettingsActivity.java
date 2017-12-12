@@ -1,8 +1,10 @@
-package com.example.android.moviecatalog;
+package com.example.android.moviecatalog.Activities;
 
+import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+
+import com.example.android.moviecatalog.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

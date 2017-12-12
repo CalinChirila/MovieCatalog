@@ -3,7 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:title="@string/settings"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         android:id="@+id/settings_menu"/>
+
+    <item android:title="Delete favorites"
+        app:showAsAction="never"
+        android:id="@+id/settings_delete_all_favorites"/>
+
+    <item android:title="Watchlist"
+        app:showAsAction="never"
+        android:id="@+id/settings_watchlist"/>
 
 </menu>

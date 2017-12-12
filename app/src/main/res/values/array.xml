@@ -3,10 +3,27 @@
     <string-array name="sort_by_category">
         <item>Most popular</item>
         <item>Top rated</item>
+        <item>Release date</item>
+        <item>Favorites</item>
+
     </string-array>
 
+    <!-- The end-points for the URL -->
     <string-array name="sort_by_values">
         <item>movie/popular</item>
         <item>movie/top_rated</item>
+        <item>release_date</item>
+        <item>favorites</item>
+
+    </string-array>
+
+    <!-- The array for sort order -->
+    <string-array name="sort_order_options">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
+    <string-array name="sort_order_values">
+        <item>.asc</item>
+        <item>.desc</item>
     </string-array>
 </resources>

@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- The list preference for the sort category -->
     <ListPreference
         android:entries="@array/sort_by_category"
         android:entryValues="@array/sort_by_values"
         android:key="@string/key_sort_by"
         android:defaultValue="movie/popular"
         android:title="@string/sort_by"/>
+
+    <!-- The list preference for the sort order -->
+    <ListPreference
+        android:entries="@array/sort_order_options"
+        android:entryValues="@array/sort_order_values"
+        android:key="@string/key_sort_order"
+        android:title="@string/pref_sort_order_title"
+        android:defaultValue="@string/pref_sort_order_default"/>
 
 </PreferenceScreen>
