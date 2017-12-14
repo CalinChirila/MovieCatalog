@@ -42,9 +42,6 @@ public class ReviewActivity extends AppCompatActivity{
         mMovieId = intent.getExtras().getInt(DetailsActivity.MOVIE_ID_EXTRA);
 
         getLoaderManager().initLoader(REVIEW_LOADER_ID, null, reviewCallback);
-
-
-
     }
 
     LoaderManager.LoaderCallbacks<List<Review>> reviewCallback = new LoaderManager.LoaderCallbacks<List<Review>>(){
@@ -91,5 +88,4 @@ public class ReviewActivity extends AppCompatActivity{
             mReviewAdapter.clear();
         }
     };
-
 }

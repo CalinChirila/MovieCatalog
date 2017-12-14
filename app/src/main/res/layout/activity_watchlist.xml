@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorPrimaryLight"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -19,12 +20,6 @@
 
     <TextView
         android:id="@+id/tv_watchlist_empty_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:visibility="gone"
-        android:textAlignment="center"
-        tools:text="The watchlist is empty. To add movies, press the Add to Watchlist button from the movie detail screen" />
+        style="@style/emptyStateTvStyle"
+        android:text="@string/watchlist_empty_state_text" />
 </FrameLayout>

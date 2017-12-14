@@ -28,7 +28,6 @@ public class Movie implements Parcelable{
         mMoviePlot = in.readString();
         mMovieRating = in.readDouble();
         mMovieId = in.readInt();
-
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -72,8 +71,6 @@ public class Movie implements Parcelable{
         mMovieRating = movieRating;
     }
     public void setMovieId(int id){ mMovieId = id; }
-
-
 
     @Override
     public int describeContents() {

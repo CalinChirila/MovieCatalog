@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,9 +15,9 @@
             android:id="@+id/iv_details_movie_poster"
             android:layout_width="@dimen/details_poster_width"
             android:layout_height="@dimen/details_poster_height"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="@dimen/details_vertical_margin"
+            android:layout_marginStart="@dimen/details_vertical_margin"
+            android:layout_marginTop="@dimen/details_vertical_margin"
             android:contentDescription="@string/poster_content_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -41,8 +42,10 @@
             android:id="@+id/tv_details_movie_vote_average"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/details_horizontal_margin"
+            android:layout_marginLeft="@dimen/details_horizontal_margin"
+            android:layout_marginRight="@dimen/details_horizontal_margin"
+            android:layout_marginStart="@dimen/details_horizontal_margin"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintBottom_toTopOf="@+id/iv_details_movie_poster"
@@ -56,8 +59,8 @@
             android:id="@+id/tv_details_movie_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/details_horizontal_margin"
+            android:layout_marginStart="@dimen/details_horizontal_margin"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
             app:layout_constraintBottom_toBottomOf="@+id/iv_details_movie_poster"
@@ -70,21 +73,20 @@
             android:id="@+id/button_add_to_favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/details_horizontal_margin"
+            android:layout_marginStart="@dimen/details_horizontal_margin"
+            android:layout_marginTop="@dimen/details_vertical_margin"
             android:contentDescription="@string/add_to_favorites_description"
             app:layout_constraintEnd_toStartOf="@+id/iv_details_movie_poster"
             app:layout_constraintStart_toEndOf="@+id/iv_details_movie_poster"
-            app:layout_constraintTop_toBottomOf="@+id/iv_details_movie_poster"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/iv_details_movie_poster" />
 
         <!-- The add to watchlist button -->
         <Button
             android:id="@+id/button_add_to_watch_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/details_vertical_margin"
             android:contentDescription="@string/add_to_watch_list_description"
             android:text="@string/button_add_to_watch_list"
             android:textSize="12sp"
@@ -97,22 +99,23 @@
             android:id="@+id/button_reviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="@dimen/details_vertical_margin"
+            android:layout_marginLeft="@dimen/details_horizontal_margin"
+            android:layout_marginStart="@dimen/details_horizontal_margin"
             android:text="@string/button_text_reviews"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_add_to_favorites"
-            app:layout_constraintStart_toEndOf="@+id/button_add_to_favorites"
-            android:layout_marginLeft="8dp" />
+            app:layout_constraintStart_toEndOf="@+id/button_add_to_favorites" />
 
-        <!-- The watch trailer button -->
+        <!-- The watch trailers button -->
         <Button
             android:id="@+id/button_watch_trailer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="@dimen/details_vertical_margin"
+            android:layout_marginEnd="@dimen/details_horizontal_margin"
+            android:layout_marginStart="@dimen/details_horizontal_margin"
+            android:backgroundTint="@color/colorAccent"
             android:text="@string/button_text_watch_trailer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_add_to_watch_list"
@@ -123,10 +126,10 @@
             android:id="@+id/tv_details_movie_plot"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="@dimen/details_vertical_margin"
+            android:layout_marginEnd="@dimen/details_horizontal_margin"
+            android:layout_marginStart="@dimen/details_horizontal_margin"
+            android:layout_marginTop="@dimen/details_vertical_margin"
             android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@+id/button_reviews"
             app:layout_constraintEnd_toEndOf="parent"

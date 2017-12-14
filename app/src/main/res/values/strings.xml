@@ -17,7 +17,20 @@
     <string name="add_to_favorites_description">Add to favorites</string>
     <string name="add_to_watch_list_description">Add to watch list</string>
     <string name="button_text_reviews">Reviews</string>
-    <string name="button_text_watch_trailer">Watch trailer</string>
+    <string name="button_text_watch_trailer">Watch trailers</string>
     <string name="movie_added_to_favorites">Movie added to favorites</string>
     <string name="movie_removed_from_favorites">Movie has been removed from favorites</string>
+    <string name="delete_favorites_confirmation_message">You are about to delete the favorites list. Do you wish to proceed?</string>
+    <string name="delete_favorites_confirmation_title">Delete favorites</string>
+    <string name="favorites_cleared_toast">Favorites list has been cleared.</string>
+    <string name="confirmation_delete_watchlist_message">You are about to delete the watchlist. Proceed?</string>
+    <string name="confirmation_delete_watchlist_title">Delete watchlist</string>
+    <string name="watchlist_empty_state_text">The watchlist is empty. To add movies, press the Add to Watchlist button from the movie detail screen.</string>
+    <string name="add_to_favorites_empty_state">The favorites list is empty. To add movies to favorites, click the Add to Favorites (Star) button in the movie detail screen.</string>
+    <string name="favorites_label">Favorites</string>
+    <string name="movie_details_label">Movie Details</string>
+    <string name="watchlist_label">Watchlist</string>
+    <string name="reviews_label">Reviews</string>
+    <string name="trailer">Trailer</string>
+    <string name="trailers">Trailers</string>
 </resources>

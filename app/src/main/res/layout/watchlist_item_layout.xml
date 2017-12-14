@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/iv_watchlist_movie_poster"
-        android:layout_width="60dp"
+        android:layout_width="@dimen/watchlist_poster_width"
         android:contentDescription="@string/poster_content_description"
-        android:layout_height="84dp"
+        android:layout_height="@dimen/watchlist_poster_height"
         android:src="@mipmap/ic_launcher_round"
-        android:layout_margin="8dp"/>
+        android:layout_margin="@dimen/details_horizontal_margin"/>
 
     <TextView
         android:id="@+id/tv_watchlist_movie_title"
@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         tools:text="Some long title here to see how it looks"
         android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/details_horizontal_margin"
         android:textAlignment="center"/>
 
 </LinearLayout>

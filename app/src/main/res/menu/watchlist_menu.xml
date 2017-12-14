@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item android:title="Delete watchlist"
         app:showAsAction="never"
         android:id="@+id/menu_delete_watchlist"/>
+
+    <item android:title="Share watchlist"
+        app:showAsAction="ifRoom"
+        android:id="@+id/menu_share_watchlist"
+        android:icon="@drawable/ic_share_black_24dp"/>
 </menu>

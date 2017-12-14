@@ -37,7 +37,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                     + WatchlistEntry.COLUMN_MOVIE_POSTER + " TEXT NOT NULL);";
 
     // The SQL statements for deleting both tables.
-    private static final String SQL_DELETE_FAVORITES_TABLE = "DROP TABLE IF EXISTS " + FavoritesEntry.TABLE_NAME;
+    private static final String SQL_DELETE_FAVORITES_TABLE = "ALTER TABLE " + FavoritesEntry.TABLE_NAME + " ADD COLUMN " + FavoritesEntry.COLUMN_MOVIE_ID + " INTEGER;";
     private static final String SQL_DELETE_WATCHLIST_TABLE = "DROP TABLE IF EXISTS " + WatchlistEntry.TABLE_NAME;
 
     // The constructor

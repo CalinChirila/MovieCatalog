@@ -21,20 +21,24 @@ public class JSONUtils {
     private static final String BASE_POSTER_URL_STRING = "https://image.tmdb.org/t/p/w185";
     public static final String BASE_YOUTUBE_URL_STRING = "http://www.youtube.com/watch?v=";
 
-    public static String parseJsonForVideoId(String jsonVideos) throws JSONException {
+    public static String[] parseJsonForVideoIds(String jsonVideos) throws JSONException {
 
         if(jsonVideos == null || TextUtils.isEmpty(jsonVideos)){
             return null;
         }
-        String videoId;
+
         JSONObject jsonRoot = new JSONObject(jsonVideos);
         JSONArray resultsArray = jsonRoot.getJSONArray("results");
-        // Get the first video
-        JSONObject trailerObject = resultsArray.getJSONObject(0);
 
-        videoId = trailerObject.optString("key");
+        String[] videoIdResults = new String[resultsArray.length()];
 
-        return videoId;
+        // Populate the array of trailer ids
+        for(int i = 0; i < videoIdResults.length; i++) {
+            JSONObject trailerObject = resultsArray.getJSONObject(i);
+            videoIdResults[i] = trailerObject.optString("key");
+        }
+
+        return videoIdResults;
     }
 
     /**
@@ -52,7 +56,6 @@ public class JSONUtils {
         JSONObject rootJsonObject = new JSONObject(jsonString);
         JSONArray resultsArray = rootJsonObject.optJSONArray("results");
 
-
         if (resultsArray.length() != 0) {
 
             movieData = new Movie[resultsArray.length()];
@@ -68,19 +71,15 @@ public class JSONUtils {
             for (int i = 0; i < movieData.length; i++) {
                 JSONObject movieObject = resultsArray.optJSONObject(i);
 
-
                 String movieTitle = movieObject.optString("title");
 
-
                 double movieRating = movieObject.optDouble("vote_average");
-
 
                 String moviePlot = movieObject.optString("overview");
 
                 String movieReleaseDate = movieObject.optString("release_date");
 
                 int movieId = movieObject.optInt("id");
-
 
                 /**
                  * This block of code is for retrieving the movie poster
@@ -91,7 +90,6 @@ public class JSONUtils {
                 String moviePosterPath = movieObject.optString("poster_path");
                 String moviePosterString = BASE_POSTER_URL_STRING + moviePosterPath;
 
-
                 Movie movie = new Movie();
 
                 movie.setMovieTitle(movieTitle);
@@ -100,7 +98,6 @@ public class JSONUtils {
                 movie.setMovieRating(movieRating);
                 movie.setMoviePoster(moviePosterString);
                 movie.setMovieId(movieId);
-
 
                 movieData[i] = movie;
 

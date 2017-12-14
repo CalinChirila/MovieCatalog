@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -8,13 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
-    <style name="DetailsActivityTVStyles" parent="AppTheme">
+    <!-- The style for the empty state TextView -->
+    <style name="emptyStateTvStyle" parent="AppTheme">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textAlignment" tools:targetApi="jelly_bean_mr1">center</item>
+        <item name="android:paddingRight">@dimen/details_horizontal_margin</item>
+        <item name="android:paddingLeft">@dimen/details_horizontal_margin</item>
+        <item name="android:visibility">gone</item>
     </style>
 
 </resources>

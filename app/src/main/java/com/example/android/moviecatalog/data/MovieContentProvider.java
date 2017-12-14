@@ -44,7 +44,6 @@ public class MovieContentProvider extends ContentProvider {
 
     private MovieDbHelper mDbHelper;
 
-
     @Override
     public boolean onCreate() {
 
@@ -87,7 +86,6 @@ public class MovieContentProvider extends ContentProvider {
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
-
 
         }
 

@@ -4,16 +4,17 @@
     android:id="@+id/root_list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/black"
+    android:background="@color/colorPrimaryLight"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/iv_movie_poster"
-        android:layout_width="@dimen/catalog_poster_width"
-        android:layout_height="@dimen/catalog_poster_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         android:layout_gravity="center_horizontal"
         android:contentDescription="@string/the_movie_poster"
-        android:padding="4dp"
+        android:padding="@dimen/small_padding"
         android:scaleType="centerCrop" />
 
     <TextView
@@ -21,9 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:padding="4dp"
+        android:padding="@dimen/small_padding"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
         tools:text="The title of te movie goes here" />
 
 </LinearLayout>

@@ -20,25 +20,20 @@ public class WatchlistMovieCursorAdapter extends RecyclerView.Adapter<WatchlistM
 
     private Cursor mCursor;
 
-
     public WatchlistMovieCursorAdapter() {}
 
-
-    public class MovieCursorAdapterViewHolder extends RecyclerView.ViewHolder {
+    class MovieCursorAdapterViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mMoviePoster;
         TextView mMovieTitle;
 
-
-        public MovieCursorAdapterViewHolder(View view) {
+        MovieCursorAdapterViewHolder(View view) {
             super(view);
 
             mMoviePoster = view.findViewById(R.id.iv_watchlist_movie_poster);
             mMovieTitle = view.findViewById(R.id.tv_watchlist_movie_title);
 
-
         }
-
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.example.android.moviecatalog.Utils;
 
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,12 +31,10 @@ public class FavoriteMovieCursorAdapter extends RecyclerView.Adapter<FavoriteMov
         mCursorClickHandler = cursorClickHandler;
     }
 
-
     public class MovieCursorAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView mMoviePoster;
         TextView mMovieTitle;
-
 
         public MovieCursorAdapterViewHolder(View view) {
             super(view);
@@ -56,7 +53,6 @@ public class FavoriteMovieCursorAdapter extends RecyclerView.Adapter<FavoriteMov
         }
     }
 
-
     @Override
     public FavoriteMovieCursorAdapter.MovieCursorAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_layout, parent, false);
@@ -70,7 +66,6 @@ public class FavoriteMovieCursorAdapter extends RecyclerView.Adapter<FavoriteMov
 
         String movieTitle = mCursor.getString(mCursor.getColumnIndex(MovieContract.FavoritesEntry.COLUMN_MOVIE_TITLE));
         String posterPath = mCursor.getString(mCursor.getColumnIndex(MovieContract.FavoritesEntry.COLUMN_MOVIE_POSTER));
-        Uri posterUri = Uri.parse(posterPath);
 
         Log.v("IMPORTANT", "Adapter poster path:" + posterPath);
 
@@ -79,7 +74,6 @@ public class FavoriteMovieCursorAdapter extends RecyclerView.Adapter<FavoriteMov
                 .placeholder(R.drawable.posternotfound)
                 .error(R.drawable.posternotfound)
                 .into(holder.mMoviePoster);
-
 
         holder.mMovieTitle.setText(movieTitle);
     }

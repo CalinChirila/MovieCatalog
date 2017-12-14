@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:padding="8dp"
+        android:padding="@dimen/small_padding"
         android:textStyle="bold"
         android:textAlignment="center"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
     <TextView
         android:id="@+id/tv_review_text"
         android:layout_width="0dp"
-        android:padding="4dp"
+        android:padding="@dimen/small_padding"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_weight="3"

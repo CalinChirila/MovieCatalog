@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name=".Activities.DetailsActivity"
+            android:label="@string/movie_details_label"
             android:parentActivityName=".Activities.CatalogActivity" />
         <activity
             android:name=".Activities.SettingsActivity"
@@ -33,8 +34,16 @@
             android:authorities="com.example.android.moviecatalog"
             android:exported="false" />
 
-        <activity android:name=".Activities.WatchlistActivity" />
-        <activity android:name=".Activities.ReviewActivity"></activity>
+        <activity
+            android:name=".Activities.WatchlistActivity"
+            android:label="@string/watchlist_label"
+            android:parentActivityName=".Activities.CatalogActivity" />
+        <activity
+            android:name=".Activities.ReviewActivity"
+            android:label="@string/reviews_label"
+            android:parentActivityName=".Activities.CatalogActivity" />
+        <activity android:name=".Activities.MovieTrailersActivity"
+            android:label="@string/trailers"/>
     </application>
 
 </manifest>

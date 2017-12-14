@@ -4,4 +4,9 @@
     <dimen name="catalog_poster_height">140dp</dimen>
     <dimen name="details_poster_width">145dp</dimen>
     <dimen name="details_poster_height">212dp</dimen>
+    <dimen name="details_vertical_margin">16dp</dimen>
+    <dimen name="details_horizontal_margin">8dp</dimen>
+    <dimen name="small_padding">4dp</dimen>
+    <dimen name="watchlist_poster_width">60dp</dimen>
+    <dimen name="watchlist_poster_height">84dp</dimen>
 </resources>

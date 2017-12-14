@@ -43,18 +43,16 @@ public class ReviewAdapter extends ArrayAdapter<Review> {
         holder.mReviewAuthor.setText(currentReview.getReviewAuthor());
         holder.mReviewText.setText(currentReview.getReviewText());
 
-
         return listItemView;
     }
 
-
-    public class ViewHolder{
+    class ViewHolder{
         @BindView (R.id.tv_review_author)
         TextView mReviewAuthor;
         @BindView(R.id.tv_review_text)
         TextView mReviewText;
 
-        public ViewHolder(View view){
+        ViewHolder(View view){
             ButterKnife.bind(this, view);
         }
     }

@@ -31,14 +31,12 @@ public class NetworkUtils {
     private static final String VIDEOS_PATH = "videos";
     private static final String REVIEWS_PATH = "reviews";
 
-
     //TODO: insert your api key here
-    private static final String API_KEY_VALUE = "<API-KEY>";
+    private static final String API_KEY_VALUE = "<API_KEY>";
     private static final String API_KEY_PARAM = "api_key";
     private static final String SORT_ORDER_PARAM_KEY = "sort_by";
     private static final String INCLUDE_VIDEO_KEY = "include_video";
     private static final boolean INCLUDE_VIDEO = true;
-
 
     public static String buildVideoJsonString(int movieId){
         Uri.Builder uriBuilder = Uri.parse(BASE_URL_STRING).buildUpon()
@@ -125,6 +123,8 @@ public class NetworkUtils {
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
 
         try{
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(10000);
             InputStream inputStream = urlConnection.getInputStream();
 
             Scanner scanner = new Scanner(inputStream);
