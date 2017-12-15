@@ -81,6 +81,8 @@ public class JSONUtils {
 
                 int movieId = movieObject.optInt("id");
 
+                double moviePopularity = movieObject.optDouble("popularity");
+
                 /**
                  * This block of code is for retrieving the movie poster
                  * This might change when using Picasso
@@ -98,6 +100,7 @@ public class JSONUtils {
                 movie.setMovieRating(movieRating);
                 movie.setMoviePoster(moviePosterString);
                 movie.setMovieId(movieId);
+                movie.setMoviePopularity(moviePopularity);
 
                 movieData[i] = movie;
 

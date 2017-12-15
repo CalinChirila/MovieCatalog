@@ -191,12 +191,17 @@ public class DetailsActivity extends AppCompatActivity {
         mAddToWatchlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ContentValues values = new ContentValues();
-                values.put(MovieContract.WatchlistEntry.COLUMN_MOVIE_TITLE, mMovieTitle);
-                values.put(MovieContract.WatchlistEntry.COLUMN_MOVIE_POSTER, mMoviePoster);
 
-                getContentResolver().insert(MovieContract.WatchlistEntry.CONTENT_URI, values);
-                Toast.makeText(getApplicationContext(), "Movie added to watchlist.", Toast.LENGTH_SHORT).show();
+                if(!isOnWatchlist(mMovieTitle)) {
+                    ContentValues values = new ContentValues();
+                    values.put(MovieContract.WatchlistEntry.COLUMN_MOVIE_TITLE, mMovieTitle);
+                    values.put(MovieContract.WatchlistEntry.COLUMN_MOVIE_POSTER, mMoviePoster);
+
+                    getContentResolver().insert(MovieContract.WatchlistEntry.CONTENT_URI, values);
+                    Toast.makeText(getApplicationContext(), "Movie added to watchlist.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Movie is already in the watchlist", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -318,5 +323,23 @@ public class DetailsActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle bundle){
         super.onRestoreInstanceState(bundle);
         movieParcel = bundle.getParcelable(CatalogActivity.EXTRA_MOVIE_PARCEL);
+    }
+
+    /**
+     * Helper method the check if the provided movie is in the watchlist
+     */
+    public boolean isOnWatchlist(String movieTitle){
+        boolean isOnWatchlist = false;
+        String[] projection = {MovieContract.WatchlistEntry.COLUMN_MOVIE_TITLE};
+        Cursor cursor = getContentResolver().query(MovieContract.WatchlistEntry.CONTENT_URI, projection, null, null, null);
+        while(cursor.moveToNext()) {
+            String watchlistTitle = cursor.getString(cursor.getColumnIndex(MovieContract.WatchlistEntry.COLUMN_MOVIE_TITLE));
+            if(watchlistTitle.equals(movieTitle)){
+                isOnWatchlist = true;
+            }
+        }
+
+        cursor.close();
+        return isOnWatchlist;
     }
 }

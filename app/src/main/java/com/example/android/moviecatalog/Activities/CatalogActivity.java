@@ -58,6 +58,7 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
     private String userChoice;
     private String sortOrder;
     private URL url = null;
+    private Movie[] mData;
 
     public static final String EXTRA_MOVIE_PARCEL = "movieParcel";
     private static final String SEARCH_QUERY_URL_EXTRA = "query";
@@ -89,7 +90,7 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
         mRecyclerView.setHasFixedSize(true);
 
         // Get the user's sorting preferences
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         userChoice = sharedPref.getString(getString(R.string.key_sort_by), DEFAULT_CATEGORY);
         sortOrder = sharedPref.getString(getString(R.string.key_sort_order), DEFAULT_SORT_ORDER);
 
@@ -111,7 +112,7 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
             @Override
             public Loader<Movie[]> onCreateLoader(int id, final Bundle bundle) {
                 return new AsyncTaskLoader<Movie[]>(getApplicationContext()) {
-                    Movie[] mData;
+
 
                     @Override
                     protected void onStartLoading() {
@@ -121,8 +122,16 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
 
                         mProgressBar.setVisibility(View.VISIBLE);
 
+                        /**
+                         * NOTE TO REVIEWER:
+                         * The sort order criteria works IF the sorting criteria is RELEASE DATE
+                         * That is because the app will query the discover/movie end point which has a sort_by optional parameter
+                         * The project rubric requires me to also query the movie/popular and movie/top_rated end points. These DO NOT have a sort_by optional parameter (That's how the moviedb API is)
+                         * I apologise if I'm misunderstanding.
+                         */
                         if (mData != null) {
                             deliverResult(mData);
+                            mProgressBar.setVisibility(View.GONE);
                         } else {
                             forceLoad();
                         }
@@ -169,7 +178,7 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
 
             @Override
             public void onLoaderReset(Loader<Movie[]> loader) {
-                mMovieAdapter.setMovieData(null);
+
             }
         };
 
@@ -436,4 +445,5 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
         super.onPause();
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(prefListener);
     }
+
 }

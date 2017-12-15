@@ -92,6 +92,18 @@ public class NetworkUtils {
                 uriBuilder.appendQueryParameter(userChoice + ".lte", currentYear);
             }
         } else {
+
+            switch(userChoice){
+                case "movie/popular":
+                    // Sort by popularity
+                    uriBuilder.appendQueryParameter(SORT_ORDER_PARAM_KEY, "popularity" + sortOrder);
+                    break;
+                case "movie/top_rated":
+                    // Sort by average rating
+                    uriBuilder.appendQueryParameter(SORT_ORDER_PARAM_KEY, "vote_average" + sortOrder);
+                    break;
+            }
+
             uriBuilder.appendPath(userChoice);
         }
 

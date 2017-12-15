@@ -15,6 +15,7 @@ public class Movie implements Parcelable{
     private String mMovieReleaseDate;
     private String mMoviePlot;
     private double mMovieRating;
+    private double mMoviePopularity;
 
     /**
      * The constructor for the Movie object
@@ -28,6 +29,7 @@ public class Movie implements Parcelable{
         mMoviePlot = in.readString();
         mMovieRating = in.readDouble();
         mMovieId = in.readInt();
+        mMoviePopularity = in.readDouble();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -51,6 +53,7 @@ public class Movie implements Parcelable{
     public double getMovieRating(){ return mMovieRating; }
     public String getMoviePoster(){ return mMoviePosterPath; }
     public int getMovieId(){ return mMovieId; }
+    public double getMoviePopularity(){ return mMoviePopularity; }
 
     /**
      * Setter methods
@@ -71,6 +74,7 @@ public class Movie implements Parcelable{
         mMovieRating = movieRating;
     }
     public void setMovieId(int id){ mMovieId = id; }
+    public void setMoviePopularity(double popularity){ mMoviePopularity = popularity; }
 
     @Override
     public int describeContents() {
@@ -86,5 +90,6 @@ public class Movie implements Parcelable{
         parcel.writeString(mMoviePlot);
         parcel.writeDouble(mMovieRating);
         parcel.writeInt(mMovieId);
+        parcel.writeDouble(mMoviePopularity);
     }
 }
