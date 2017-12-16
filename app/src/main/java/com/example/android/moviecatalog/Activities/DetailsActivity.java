@@ -218,7 +218,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                 Movie selectedMovie = intent.getParcelableExtra(CatalogActivity.EXTRA_MOVIE_PARCEL);
                 int movieId = selectedMovie.getMovieId();                                             // Ex: 347882
-                String videosJson = NetworkUtils.buildVideoJsonString(movieId);                       // https://api.themoviedb.org/3/movie/<movieId>/videos?q=<API_KEY>
+                String videosJson = NetworkUtils.buildVideoJsonString(getApplicationContext(), movieId);                       // https://api.themoviedb.org/3/movie/<movieId>/videos?q=<API_KEY>
 
                 // Pass in the web address for the JSON that contains trailer information
                 launchTrailersActivityIntent.putExtra(YOUTUBE_SEARCH_EXTRA, videosJson);

@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +40,8 @@ import java.net.URL;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CatalogActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler, FavoriteMovieCursorAdapter.MovieCursorAdapterOnClickHandler {
+public class CatalogActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler,
+        FavoriteMovieCursorAdapter.MovieCursorAdapterOnClickHandler, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = CatalogActivity.class.getSimpleName();
 
@@ -53,15 +55,22 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
     public static MovieAdapter mMovieAdapter;
     public static FavoriteMovieCursorAdapter mFavoriteMovieCursorAdapter;
 
-    private SharedPreferences.OnSharedPreferenceChangeListener prefListener;
     boolean isConnected = false;
     private String userChoice;
     private String sortOrder;
     private URL url = null;
     private Movie[] mData;
+    private Movie[] oldData;
+    private GridLayoutManager mLayoutManager;
+    private SharedPreferences sharedPref;
+    Bundle queryBundle;
+
+    LoaderManager.LoaderCallbacks<Movie[]> movieCallback;
+    LoaderManager.LoaderCallbacks<Cursor> favoritesCallback;
+
 
     public static final String EXTRA_MOVIE_PARCEL = "movieParcel";
-    private static final String SEARCH_QUERY_URL_EXTRA = "query";
+    public static final String SEARCH_QUERY_URL_EXTRA = "query";
     private static final String DEFAULT_CATEGORY = "movie/popular";
     private static final String DEFAULT_SORT_ORDER = ".desc";
     private static final int FAVORITES_LOADER_ID = 1;
@@ -73,6 +82,7 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
         setContentView(R.layout.activity_catalog);
         ButterKnife.bind(this);
 
+
         // Create a boolean that checks if we have internet connectivity
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -83,42 +93,47 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
         }
 
         // Get a grid layout manager and set it to the RecyclerView
-        GridLayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // Set the RecyclerView's fixed size so that the size of the items doesn't change
         mRecyclerView.setHasFixedSize(true);
 
         // Get the user's sorting preferences
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         userChoice = sharedPref.getString(getString(R.string.key_sort_by), DEFAULT_CATEGORY);
         sortOrder = sharedPref.getString(getString(R.string.key_sort_order), DEFAULT_SORT_ORDER);
 
+        mMovieAdapter = new MovieAdapter(this);
+        mFavoriteMovieCursorAdapter = new FavoriteMovieCursorAdapter(this);
+        // Set the correct adapter
         if (!userChoice.equals("favorites")) {
             // Create a new MovieAdapter and set it to the RecyclerView
-            mMovieAdapter = new MovieAdapter(this);
             mRecyclerView.setAdapter(mMovieAdapter);
         } else {
-            mFavoriteMovieCursorAdapter = new FavoriteMovieCursorAdapter(this);
             mRecyclerView.setAdapter(mFavoriteMovieCursorAdapter);
         }
 
-        final Bundle queryBundle = new Bundle();
+        queryBundle = new Bundle();
+
+
 
         /**
          * Instantiate the LoaderCallBacks for the Movie[] return type
          */
-        final LoaderManager.LoaderCallbacks<Movie[]> movieCallback = new LoaderManager.LoaderCallbacks<Movie[]>() {
+        movieCallback = new LoaderManager.LoaderCallbacks<Movie[]>() {
             @Override
             public Loader<Movie[]> onCreateLoader(int id, final Bundle bundle) {
                 return new AsyncTaskLoader<Movie[]>(getApplicationContext()) {
-
 
                     @Override
                     protected void onStartLoading() {
                         if (bundle == null) {
                             return;
                         }
+
+                        String newUserChoice = sharedPref.getString(getString(R.string.key_sort_by), DEFAULT_CATEGORY);
+                        String newSortOrder = sharedPref.getString(getString(R.string.key_sort_order), DEFAULT_SORT_ORDER);
 
                         mProgressBar.setVisibility(View.VISIBLE);
 
@@ -130,11 +145,31 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
                          * I apologise if I'm misunderstanding.
                          */
                         if (mData != null) {
-                            deliverResult(mData);
-                            mProgressBar.setVisibility(View.GONE);
-                        } else {
+                            // If the user changed something in preferences
+                            if( newUserChoice != userChoice || newSortOrder != sortOrder){
+                                userChoice = newUserChoice;
+                                sortOrder = newSortOrder;
+                                // Build the url again
+                                url = NetworkUtils.buildUrl(getApplicationContext(), userChoice, sortOrder);
+                                bundle.putString(SEARCH_QUERY_URL_EXTRA, url.toString());
+                                forceLoad();
+                                return;
+                            } else {
+                                deliverResult(mData);
+                            }
+                        }
+
+                        if(mData != oldData || mData == null){
+                            Log.v("IMPORTANT", "" + takeContentChanged());
                             forceLoad();
                         }
+
+
+                    }
+
+                    @Override
+                    protected void onStopLoading() {
+                        cancelLoad();
                     }
 
                     @Override
@@ -163,14 +198,37 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
 
                     @Override
                     public void deliverResult(Movie[] data) {
+                        if (isReset()) {
+                            return;
+                        }
+
+
+
+                        // If nothing has changed
+                        if(oldData == data){
+                            mMovieAdapter.setMovieData(data);
+                            mProgressBar.setVisibility(View.GONE);
+                            mEmptyState.setVisibility(View.GONE);
+                        }
                         mData = data;
-                        super.deliverResult(data);
+                        oldData = mData;
+                        if (isStarted()) {
+                            super.deliverResult(data);
+                        }
                     }
                 };
             }
 
             @Override
             public void onLoadFinished(Loader<Movie[]> loader, Movie[] movies) {
+
+                // If the user chose sort by top rated or sort by most popular and the sort order is ascending
+                // reverse the movies order in the array
+                // This is an edge case, but unfortunately themoviedb API doesn't have a sort_by optional param for these end points
+                // This way at least, the sort order button changes the order of the movies regardless.
+                if (sortOrder.equals(".asc") && (userChoice.equals("movie/popular") || userChoice.equals("movie/top_rated"))) {
+                    movies = reverseData(movies);
+                }
                 mMovieAdapter.setMovieData(movies);
                 mProgressBar.setVisibility(View.GONE);
                 mEmptyState.setVisibility(View.GONE);
@@ -178,14 +236,14 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
 
             @Override
             public void onLoaderReset(Loader<Movie[]> loader) {
-
+                mMovieAdapter.setMovieData(null);
             }
         };
 
         /**
          * Instantiate the LoaderCallBacks for the Cursor return type
          */
-        final LoaderManager.LoaderCallbacks<Cursor> favoritesCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
+        favoritesCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 
             @Override
             public Loader<Cursor> onCreateLoader(int id, final Bundle bundle) {
@@ -230,7 +288,9 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
 
             @Override
             public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-                mFavoriteMovieCursorAdapter.swapCursor(cursor);
+                if(cursor != null) {
+                    mFavoriteMovieCursorAdapter.swapCursor(cursor);
+                }
                 mProgressBar.setVisibility(View.GONE);
 
                 if (cursor.getCount() == 0) {
@@ -245,18 +305,6 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
             }
         };
 
-        // Implement the OnSharedPreferenceChangeListener
-        prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                if(userChoice.equals("favorites")){
-                    getLoaderManager().restartLoader(FAVORITES_LOADER_ID, null, favoritesCallback);
-                } else {
-                    queryBundle.putString(SEARCH_QUERY_URL_EXTRA, url.toString());
-                    getLoaderManager().restartLoader(MOVIE_LOADER_ID, queryBundle, movieCallback);
-                }
-            }
-        };
 
 
         if (userChoice.equals("favorites")) {
@@ -268,8 +316,7 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
             if (isConnected) {
                 // If we have internet connectivity, add the user choice in the URL
                 // and make the network request
-                url = NetworkUtils.buildUrl(userChoice, sortOrder);
-
+                url = NetworkUtils.buildUrl(getApplicationContext(), userChoice, sortOrder);
                 queryBundle.putString(SEARCH_QUERY_URL_EXTRA, url.toString());
 
                 getLoaderManager().initLoader(MOVIE_LOADER_ID, queryBundle, movieCallback);
@@ -434,16 +481,32 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
 
     // Register the preference change listener
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(prefListener);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     }
 
-    // Unregister the preference change listener
+
+    /**
+     * Helper method to reverse the movies in the array
+     */
+    private Movie[] reverseData(Movie[] data) {
+        Movie[] newData = new Movie[data.length];
+        int j = 0;
+        for (int i = data.length - 1; i >= 0; i--) {
+            newData[j] = data[i];
+            j++;
+        }
+        return newData;
+    }
+
     @Override
-    public void onPause(){
-        super.onPause();
-        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(prefListener);
-    }
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
+        if (sharedPreferences.getString(key, "").equals("favorites")) {
+            getLoaderManager().restartLoader(FAVORITES_LOADER_ID, null, favoritesCallback);
+        } else {
+            getLoaderManager().restartLoader(MOVIE_LOADER_ID, queryBundle, movieCallback);
+        }
+    }
 }

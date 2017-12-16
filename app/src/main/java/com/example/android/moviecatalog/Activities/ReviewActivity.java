@@ -56,7 +56,7 @@ public class ReviewActivity extends AppCompatActivity{
                 @Override
                 public List<Review> loadInBackground() {
                     List<Review> reviewList;
-                    String reviewUrlString = NetworkUtils.buildReviewJsonString(mMovieId);
+                    String reviewUrlString = NetworkUtils.buildReviewJsonString(getContext(), mMovieId);
                     URL reviewUrl = NetworkUtils.buildUrl(reviewUrlString);
                     String reviewJsonResponse;
                     try{

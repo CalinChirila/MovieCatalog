@@ -1,8 +1,11 @@
 package com.example.android.moviecatalog.Utils;
 
+import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.example.android.moviecatalog.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,29 +34,27 @@ public class NetworkUtils {
     private static final String VIDEOS_PATH = "videos";
     private static final String REVIEWS_PATH = "reviews";
 
-    //TODO: insert your api key here
-    private static final String API_KEY_VALUE = "<API_KEY>";
     private static final String API_KEY_PARAM = "api_key";
     private static final String SORT_ORDER_PARAM_KEY = "sort_by";
     private static final String INCLUDE_VIDEO_KEY = "include_video";
     private static final boolean INCLUDE_VIDEO = true;
 
-    public static String buildVideoJsonString(int movieId){
+    public static String buildVideoJsonString(Context context, int movieId){
         Uri.Builder uriBuilder = Uri.parse(BASE_URL_STRING).buildUpon()
                 .appendPath(MOVIE_PATH)
                 .appendPath(String.valueOf(movieId))
                 .appendPath(VIDEOS_PATH)
-                .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE);
+                .appendQueryParameter(API_KEY_PARAM, context.getString(R.string.MOVIE_DB_API_KEY));
 
         return uriBuilder.build().toString();
     }
 
-    public static String buildReviewJsonString(int movieId){
+    public static String buildReviewJsonString(Context context, int movieId){
         Uri.Builder uriBuilder = Uri.parse(BASE_URL_STRING).buildUpon()
                 .appendPath(MOVIE_PATH)
                 .appendPath(String.valueOf(movieId))
                 .appendPath(REVIEWS_PATH)
-                .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE);
+                .appendQueryParameter(API_KEY_PARAM, context.getString(R.string.MOVIE_DB_API_KEY));
 
         return uriBuilder.build().toString();
     }
@@ -74,10 +75,10 @@ public class NetworkUtils {
      * Build the url based on the user preferences
      * @return the constructed url
      */
-    public static URL buildUrl(String userChoice, String sortOrder){
+    public static URL buildUrl(Context context, String userChoice, String sortOrder){
 
         Uri.Builder uriBuilder = Uri.parse(BASE_URL_STRING).buildUpon()
-                .appendQueryParameter(API_KEY_PARAM, API_KEY_VALUE);
+                .appendQueryParameter(API_KEY_PARAM, context.getString(R.string.MOVIE_DB_API_KEY));
 
         // If the user sorting choice isn't most popular or top rated, append the discover movie path
         // This will allow for sorting order
