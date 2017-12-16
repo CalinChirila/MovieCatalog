@@ -13,8 +13,7 @@
         android:padding="@dimen/small_padding"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:layout_height="wrap_content"
-        tools:text="Benny"/>
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="1dp"
@@ -29,7 +28,6 @@
         android:padding="@dimen/small_padding"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:layout_weight="3"
-        tools:text="I really like this movie 10/10 and some other opinion that is irrelevant but helps the developer see how to style these views."/>
+        android:layout_weight="3" />
 
 </LinearLayout>

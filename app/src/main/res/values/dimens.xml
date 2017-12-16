@@ -9,4 +9,6 @@
     <dimen name="small_padding">4dp</dimen>
     <dimen name="watchlist_poster_width">60dp</dimen>
     <dimen name="watchlist_poster_height">84dp</dimen>
+    <dimen name="details_movie_title_width">194dp</dimen>
+    <dimen name="add_to_watchlist_text_size">12sp</dimen>
 </resources>

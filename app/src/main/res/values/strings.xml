@@ -33,4 +33,6 @@
     <string name="reviews_label">Reviews</string>
     <string name="trailer">Trailer</string>
     <string name="trailers">Trailers</string>
+    <string name="delete_favorites">Delete favorites</string>
+    <string name="review_empty_state_text">There are no reviews for this movie.</string>
 </resources>

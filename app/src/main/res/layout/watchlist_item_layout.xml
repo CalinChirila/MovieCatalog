@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:id="@+id/watchlist_item_layout"
@@ -18,7 +17,6 @@
         android:id="@+id/tv_watchlist_movie_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Some long title here to see how it looks"
         android:layout_gravity="center_vertical"
         android:layout_margin="@dimen/details_horizontal_margin"
         android:textAlignment="center"/>

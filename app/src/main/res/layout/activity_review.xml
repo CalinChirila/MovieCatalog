@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list_reviews"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.android.moviecatalog.Activities.ReviewActivity">
+    android:layout_height="wrap_content">
 
-</ListView>
+    <ListView
+        android:id="@+id/list_reviews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.android.moviecatalog.Activities.ReviewActivity"/>
+
+    <TextView
+        android:id="@+id/tv_review_empty_state"
+        style="@style/emptyStateTvStyle"
+        android:text="@string/review_empty_state_text"
+        android:visibility="gone"/>
+</FrameLayout>

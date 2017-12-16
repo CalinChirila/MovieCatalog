@@ -2,7 +2,6 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,16 +25,15 @@
         <!-- The movie title -->
         <TextView
             android:id="@+id/tv_details_movie_title"
-            android:layout_width="194dp"
+            android:layout_width="@dimen/details_movie_title_width"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="@dimen/details_horizontal_margin"
+            android:layout_marginStart="@dimen/details_horizontal_margin"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
             app:layout_constraintEnd_toEndOf="@+id/iv_details_movie_poster"
             app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_details_movie_poster"
-            tools:text="The Great Movie Title" />
+            app:layout_constraintTop_toTopOf="@+id/iv_details_movie_poster" />
 
         <!-- The movie's average score -->
         <TextView
@@ -51,8 +49,7 @@
             app:layout_constraintBottom_toTopOf="@+id/iv_details_movie_poster"
             app:layout_constraintEnd_toEndOf="@+id/iv_details_movie_poster"
             app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_details_movie_poster"
-            tools:text="7.2" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_details_movie_poster" />
 
         <!-- The movie release date -->
         <TextView
@@ -65,8 +62,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
             app:layout_constraintBottom_toBottomOf="@+id/iv_details_movie_poster"
             app:layout_constraintEnd_toEndOf="@+id/iv_details_movie_poster"
-            app:layout_constraintStart_toEndOf="parent"
-            tools:text="12.12.2013" />
+            app:layout_constraintStart_toEndOf="parent" />
 
         <!-- The add to favorites button -->
         <ImageButton
@@ -89,7 +85,7 @@
             android:layout_marginTop="@dimen/details_vertical_margin"
             android:contentDescription="@string/add_to_watch_list_description"
             android:text="@string/button_add_to_watch_list"
-            android:textSize="12sp"
+            android:textSize="@dimen/add_to_watchlist_text_size"
             app:layout_constraintEnd_toStartOf="@+id/tv_details_movie_release_date"
             app:layout_constraintStart_toEndOf="@+id/tv_details_movie_release_date"
             app:layout_constraintTop_toBottomOf="@+id/tv_details_movie_release_date" />
@@ -134,7 +130,6 @@
             app:layout_constraintBottom_toTopOf="@+id/button_reviews"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_add_to_favorites"
-            tools:text="@string/cliche_plot_string" />
+            app:layout_constraintTop_toBottomOf="@+id/button_add_to_favorites" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

@@ -6,17 +6,15 @@
         app:showAsAction="never"
         android:id="@+id/settings_menu"/>
 
-    <item android:title="Delete favorites"
+    <item android:title="@string/favorites_label"
         app:showAsAction="never"
-        android:id="@+id/settings_delete_all_favorites"/>
+        android:id="@+id/menu_favorites" />
+
 
     <item android:title="Watchlist"
         app:showAsAction="never"
         android:id="@+id/settings_watchlist"/>
 
-    <item android:title="Share favorites"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_share_black_24dp"
-        android:id="@+id/menu_share_favorites" />
+
 
 </menu>

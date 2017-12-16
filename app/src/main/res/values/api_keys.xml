@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--TODO: insert API KEY here-->
-    <string name="MOVIE_DB_API_KEY">dcff6e16c2f2a33f47ea1b8b3b668911</string>
+    <string name="MOVIE_DB_API_KEY">[API_KEY]</string>
 </resources>

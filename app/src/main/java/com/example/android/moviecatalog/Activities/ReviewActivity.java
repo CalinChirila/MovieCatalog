@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.android.moviecatalog.R;
 import com.example.android.moviecatalog.Utils.JSONUtils;
@@ -25,6 +27,8 @@ import butterknife.ButterKnife;
 public class ReviewActivity extends AppCompatActivity{
     @BindView(R.id.list_reviews)
     ListView reviewsList;
+    @BindView(R.id.tv_review_empty_state)
+    TextView mEmptyState;
 
     private ReviewAdapter mReviewAdapter;
     private static final int REVIEW_LOADER_ID = 4;
@@ -79,7 +83,10 @@ public class ReviewActivity extends AppCompatActivity{
             mReviewAdapter.clear();
             if(reviews != null && !reviews.isEmpty()){
                 mReviewAdapter.addAll(reviews);
+            } else {
+                mEmptyState.setVisibility(View.VISIBLE);
             }
+
             reviewsList.setAdapter(mReviewAdapter);
         }
 

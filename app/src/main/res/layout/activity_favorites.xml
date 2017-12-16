@@ -5,22 +5,16 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_catalog"
+        android:id="@+id/rv_favorites"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryLight"
         android:columnCount="2"
-        tools:context="com.example.android.moviecatalog.Activities.CatalogActivity">
+        tools:context="com.example.android.moviecatalog.Activities.FavoritesActivityActivity">
 
     </android.support.v7.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/tv_empty_state"
+        android:id="@+id/tv_favorites_empty_state"
         style="@style/emptyStateTvStyle" />
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
 </merge>

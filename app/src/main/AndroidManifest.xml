@@ -42,8 +42,10 @@
             android:name=".Activities.ReviewActivity"
             android:label="@string/reviews_label"
             android:parentActivityName=".Activities.CatalogActivity" />
-        <activity android:name=".Activities.MovieTrailersActivity"
-            android:label="@string/trailers"/>
+        <activity
+            android:name=".Activities.MovieTrailersActivity"
+            android:label="@string/trailers" />
+        <activity android:name=".Activities.FavoritesActivity"></activity>
     </application>
 
 </manifest>

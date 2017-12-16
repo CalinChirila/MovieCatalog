@@ -1,20 +1,16 @@
 package com.example.android.moviecatalog.Activities;
 
 
-import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,15 +21,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.moviecatalog.R;
-import com.example.android.moviecatalog.Utils.FavoriteMovieCursorAdapter;
 import com.example.android.moviecatalog.Utils.JSONUtils;
 import com.example.android.moviecatalog.Utils.Movie;
 import com.example.android.moviecatalog.Utils.MovieAdapter;
 import com.example.android.moviecatalog.Utils.NetworkUtils;
-import com.example.android.moviecatalog.data.MovieContract;
 
 import java.net.URL;
 
@@ -41,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CatalogActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler,
-        FavoriteMovieCursorAdapter.MovieCursorAdapterOnClickHandler, SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = CatalogActivity.class.getSimpleName();
 
@@ -53,7 +46,7 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
     TextView mEmptyState;
 
     public static MovieAdapter mMovieAdapter;
-    public static FavoriteMovieCursorAdapter mFavoriteMovieCursorAdapter;
+
 
     boolean isConnected = false;
     private String userChoice;
@@ -66,14 +59,12 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
     Bundle queryBundle;
 
     LoaderManager.LoaderCallbacks<Movie[]> movieCallback;
-    LoaderManager.LoaderCallbacks<Cursor> favoritesCallback;
 
 
     public static final String EXTRA_MOVIE_PARCEL = "movieParcel";
     public static final String SEARCH_QUERY_URL_EXTRA = "query";
     private static final String DEFAULT_CATEGORY = "movie/popular";
     private static final String DEFAULT_SORT_ORDER = ".desc";
-    private static final int FAVORITES_LOADER_ID = 1;
     private static final int MOVIE_LOADER_ID = 2;
 
     @Override
@@ -105,17 +96,13 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
         sortOrder = sharedPref.getString(getString(R.string.key_sort_order), DEFAULT_SORT_ORDER);
 
         mMovieAdapter = new MovieAdapter(this);
-        mFavoriteMovieCursorAdapter = new FavoriteMovieCursorAdapter(this);
+
         // Set the correct adapter
-        if (!userChoice.equals("favorites")) {
-            // Create a new MovieAdapter and set it to the RecyclerView
-            mRecyclerView.setAdapter(mMovieAdapter);
-        } else {
-            mRecyclerView.setAdapter(mFavoriteMovieCursorAdapter);
-        }
+
+        mRecyclerView.setAdapter(mMovieAdapter);
+
 
         queryBundle = new Bundle();
-
 
 
         /**
@@ -146,7 +133,7 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
                          */
                         if (mData != null) {
                             // If the user changed something in preferences
-                            if( newUserChoice != userChoice || newSortOrder != sortOrder){
+                            if (newUserChoice != userChoice || newSortOrder != sortOrder) {
                                 userChoice = newUserChoice;
                                 sortOrder = newSortOrder;
                                 // Build the url again
@@ -159,7 +146,7 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
                             }
                         }
 
-                        if(mData != oldData || mData == null){
+                        if (mData != oldData || mData == null) {
                             Log.v("IMPORTANT", "" + takeContentChanged());
                             forceLoad();
                         }
@@ -203,9 +190,8 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
                         }
 
 
-
                         // If nothing has changed
-                        if(oldData == data){
+                        if (oldData == data) {
                             mMovieAdapter.setMovieData(data);
                             mProgressBar.setVisibility(View.GONE);
                             mEmptyState.setVisibility(View.GONE);
@@ -240,95 +226,23 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
             }
         };
 
-        /**
-         * Instantiate the LoaderCallBacks for the Cursor return type
-         */
-        favoritesCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 
-            @Override
-            public Loader<Cursor> onCreateLoader(int id, final Bundle bundle) {
-                return new AsyncTaskLoader<Cursor>(getApplicationContext()) {
-                    Cursor mFavoritesData = null;
+        if (isConnected) {
+            // If we have internet connectivity, add the user choice in the URL
+            // and make the network request
+            url = NetworkUtils.buildUrl(getApplicationContext(), userChoice, sortOrder);
+            queryBundle.putString(SEARCH_QUERY_URL_EXTRA, url.toString());
 
-                    @Override
-                    protected void onStartLoading() {
-
-                        if (mFavoritesData != null) {
-                            deliverResult(mFavoritesData);
-                        } else {
-                            forceLoad();
-                        }
-                    }
-
-                    @Override
-                    public Cursor loadInBackground() {
-
-                        try {
-                            return getContentResolver().query(
-                                    MovieContract.FavoritesEntry.CONTENT_URI,
-                                    null,
-                                    null,
-                                    null,
-                                    null
-                            );
-                        } catch (Exception e) {
-
-                            e.printStackTrace();
-                            return null;
-                        }
-                    }
-
-                    @Override
-                    public void deliverResult(Cursor data) {
-                        mFavoritesData = data;
-                        super.deliverResult(data);
-                    }
-                };
-            }
-
-            @Override
-            public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-                if(cursor != null) {
-                    mFavoriteMovieCursorAdapter.swapCursor(cursor);
-                }
-                mProgressBar.setVisibility(View.GONE);
-
-                if (cursor.getCount() == 0) {
-                    showEmptyState();
-                    mEmptyState.setText(R.string.add_to_favorites_empty_state);
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<Cursor> loader) {
-                mFavoriteMovieCursorAdapter.swapCursor(null);
-            }
-        };
-
-
-
-        if (userChoice.equals("favorites")) {
-            // Initialize the favorites loader here
-            getLoaderManager().initLoader(FAVORITES_LOADER_ID, null, favoritesCallback);
-            getSupportActionBar().setTitle(R.string.favorites_label);
+            getLoaderManager().initLoader(MOVIE_LOADER_ID, queryBundle, movieCallback);
 
         } else {
-            if (isConnected) {
-                // If we have internet connectivity, add the user choice in the URL
-                // and make the network request
-                url = NetworkUtils.buildUrl(getApplicationContext(), userChoice, sortOrder);
-                queryBundle.putString(SEARCH_QUERY_URL_EXTRA, url.toString());
-
-                getLoaderManager().initLoader(MOVIE_LOADER_ID, queryBundle, movieCallback);
-
-            } else {
-                // If we do not have connectivity, set the text of the empty state text view
-                // to inform the user of the problem
-                mEmptyState.setText(getString(R.string.no_internet_connection_message));
-                showEmptyState();
-            }
+            // If we do not have connectivity, set the text of the empty state text view
+            // to inform the user of the problem
+            mEmptyState.setText(getString(R.string.no_internet_connection_message));
+            showEmptyState();
         }
     }
+
 
     @Override
     public void onClick(Movie movie) {
@@ -359,9 +273,13 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
                     startActivity(menuIntent);
                 }
                 break;
-            case R.id.settings_delete_all_favorites:
-                showDeleteFavoritesConfirmation();
+            case R.id.menu_favorites:
+                Intent favoritesIntent = new Intent(CatalogActivity.this, FavoritesActivity.class);
+                if (favoritesIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(favoritesIntent);
+                }
                 break;
+
 
             case R.id.settings_watchlist:
                 // Start the WatchlistActivity
@@ -371,94 +289,8 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
                 }
                 break;
 
-            case R.id.menu_share_favorites:
-                Intent shareIntent = createShareFavoritesIntent();
-                if (shareIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(shareIntent);
-                }
-                break;
         }
         return super.onOptionsItemSelected(menuItem);
-    }
-
-    @Override
-    public void onCursorItemClick(Cursor cursor) {
-        // Create a new movie object
-        Movie movie = new Movie();
-
-        // Store the required data
-        String movieTitle = cursor.getString(cursor.getColumnIndex(MovieContract.FavoritesEntry.COLUMN_MOVIE_TITLE));
-        String movieReleaseDate = cursor.getString(cursor.getColumnIndex(MovieContract.FavoritesEntry.COLUMN_MOVIE_RELEASE_DATE));
-        String moviePlot = cursor.getString(cursor.getColumnIndex(MovieContract.FavoritesEntry.COLUMN_MOVIE_PLOT));
-        String moviePoster = cursor.getString(cursor.getColumnIndex(MovieContract.FavoritesEntry.COLUMN_MOVIE_POSTER));
-        double movieRating = cursor.getDouble(cursor.getColumnIndex(MovieContract.FavoritesEntry.COLUMN_MOVIE_VOTE_AVERAGE));
-        int movieId = cursor.getInt(cursor.getColumnIndex(MovieContract.FavoritesEntry.COLUMN_MOVIE_ID));
-
-        // Add the data from above to the new movie object
-        movie.setMovieTitle(movieTitle);
-        movie.setMovieReleaseDate(movieReleaseDate);
-        movie.setMoviePlot(moviePlot);
-        movie.setMoviePoster("file://" + moviePoster);
-        movie.setMovieRating(movieRating);
-        movie.setMovieId(movieId);
-
-        // Create the intent to start the DetailsActivity
-        Intent intent = new Intent(CatalogActivity.this, DetailsActivity.class);
-        intent.putExtra(EXTRA_MOVIE_PARCEL, movie);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
-
-    /**
-     * Helper method to create the share favorites intent
-     */
-    private Intent createShareFavoritesIntent() {
-        // Create an intent to share the items on the favorites list (just the movie titles)
-        // First query the favorites db
-        String[] projection = {MovieContract.FavoritesEntry.COLUMN_MOVIE_TITLE};
-        Cursor favoritesCursor = getContentResolver().query(MovieContract.FavoritesEntry.CONTENT_URI, projection, null, null, null);
-
-        // Create a string with every movie title in the favorites list
-        String textSegment;
-        StringBuilder builder = new StringBuilder();
-        int index = 1;
-        while (favoritesCursor.moveToNext()) {
-            textSegment = String.valueOf(index) + ". " + favoritesCursor.getString(favoritesCursor.getColumnIndex(MovieContract.WatchlistEntry.COLUMN_MOVIE_TITLE)) + "\n\n";
-            index++;
-            builder.append(textSegment);
-        }
-        String shareText = builder.toString();
-        favoritesCursor.close();
-
-        // Create the share intent
-        Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                .setType("text/plain")
-                .setText(shareText)
-                .getIntent();
-        shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-
-        return shareIntent;
-    }
-
-    /**
-     * Helper method for the delete favorites confirmation dialog
-     */
-    private void showDeleteFavoritesConfirmation() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setTitle(R.string.delete_favorites_confirmation_title)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setMessage(R.string.delete_favorites_confirmation_message)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        // Delete favorites
-                        getContentResolver().delete(MovieContract.FavoritesEntry.CONTENT_URI, null, null);
-                        Toast.makeText(getApplicationContext(), R.string.favorites_cleared_toast, Toast.LENGTH_SHORT).show();
-                        recreateActivity();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null).show();
     }
 
     /**
@@ -468,15 +300,6 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
         mRecyclerView.setVisibility(View.GONE);
         mEmptyState.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
-    }
-
-    /**
-     * Helper method to recreate an activity
-     */
-    private void recreateActivity() {
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
     }
 
     // Register the preference change listener
@@ -503,10 +326,9 @@ public class CatalogActivity extends AppCompatActivity implements MovieAdapter.M
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        if (sharedPreferences.getString(key, "").equals("favorites")) {
-            getLoaderManager().restartLoader(FAVORITES_LOADER_ID, null, favoritesCallback);
-        } else {
+
+
             getLoaderManager().restartLoader(MOVIE_LOADER_ID, queryBundle, movieCallback);
-        }
+
     }
 }

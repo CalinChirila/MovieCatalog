@@ -4,7 +4,6 @@
         <item>Most popular</item>
         <item>Top rated</item>
         <item>Release date</item>
-        <item>Favorites</item>
 
     </string-array>
 
@@ -13,7 +12,6 @@
         <item>movie/popular</item>
         <item>movie/top_rated</item>
         <item>release_date</item>
-        <item>favorites</item>
 
     </string-array>
 
