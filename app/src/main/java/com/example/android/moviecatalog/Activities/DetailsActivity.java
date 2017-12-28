@@ -11,13 +11,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.moviecatalog.R;
 import com.example.android.moviecatalog.Utils.Movie;
@@ -40,6 +40,7 @@ public class DetailsActivity extends AppCompatActivity {
     public static final String YOUTUBE_SEARCH_EXTRA = "youtube";
     public static final String MOVIE_ID_EXTRA = "movieID";
 
+
     @BindView(R.id.tv_details_movie_title)
     TextView mDetailsMovieTitle;
     @BindView(R.id.iv_details_movie_poster)
@@ -58,6 +59,8 @@ public class DetailsActivity extends AppCompatActivity {
     Button mWatchTrailerButton;
     @BindView(R.id.button_reviews)
     Button mReviewsButton;
+    @BindView(R.id.root_details_layout)
+    View detailsRootLayout;
 
     private boolean isFavorite;
     private Uri mUri;
@@ -172,13 +175,13 @@ public class DetailsActivity extends AppCompatActivity {
                     mUri = getContentResolver().insert(FavoritesEntry.CONTENT_URI, values);
 
                     mAddToFavorites.setImageResource(android.R.drawable.btn_star_big_on);
-                    Toast.makeText(getApplicationContext(), getString(R.string.movie_added_to_favorites), Toast.LENGTH_SHORT).show();
+                    Snackbar.make(detailsRootLayout, getString(R.string.movie_added_to_favorites), Snackbar.LENGTH_LONG).show();
                     isFavorite = true;
                 } else {
 
                     getContentResolver().delete(mUri, null, null);
                     mAddToFavorites.setImageResource(android.R.drawable.btn_star_big_off);
-                    Toast.makeText(getApplicationContext(), getString(R.string.movie_removed_from_favorites), Toast.LENGTH_SHORT).show();
+                    Snackbar.make(detailsRootLayout, getString(R.string.movie_removed_from_favorites), Snackbar.LENGTH_LONG).show();
                     isFavorite = false;
 
                 }
@@ -191,16 +194,16 @@ public class DetailsActivity extends AppCompatActivity {
         mAddToWatchlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if(!isOnWatchlist(mMovieTitle)) {
                     ContentValues values = new ContentValues();
                     values.put(MovieContract.WatchlistEntry.COLUMN_MOVIE_TITLE, mMovieTitle);
                     values.put(MovieContract.WatchlistEntry.COLUMN_MOVIE_POSTER, mMoviePoster);
 
                     getContentResolver().insert(MovieContract.WatchlistEntry.CONTENT_URI, values);
-                    Toast.makeText(getApplicationContext(), "Movie added to watchlist.", Toast.LENGTH_SHORT).show();
+
+                    Snackbar.make(detailsRootLayout, "Movie added to watchlist", Snackbar.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Movie is already in the watchlist", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(detailsRootLayout, "Movie is already in the watchlist", Snackbar.LENGTH_LONG).show();
                 }
             }
         });

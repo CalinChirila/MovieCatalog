@@ -11,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.android.moviecatalog.R;
 import com.example.android.moviecatalog.Utils.JSONUtils;
@@ -25,6 +27,8 @@ import butterknife.ButterKnife;
 public class MovieTrailersActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String[]>, TrailerAdapter.TrailerAdapterOnClickHandler {
     @BindView(R.id.rv_movie_trailers)
     RecyclerView trailersList;
+    @BindView(R.id.tv_trailer_empty_state)
+    TextView mEmptyState;
 
     private String jsonQuery;
     private static final int TRAILER_LOADER_ID = 4;
@@ -100,12 +104,16 @@ public class MovieTrailersActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public void onLoadFinished(Loader<String[]> loader, String[] result) {
+        if(result.length == 0){
+            mEmptyState.setVisibility(View.VISIBLE);
+            return;
+        }
         mTrailerAdapter.setTrailerData(result);
     }
 
     @Override
     public void onLoaderReset(Loader<String[]> loader) {
-
+        mTrailerAdapter.setTrailerData(null);
     }
 
     @Override

@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.moviecatalog.R;
 import com.example.android.moviecatalog.Utils.FavoriteMovieCursorAdapter;
@@ -200,7 +199,6 @@ public class FavoritesActivity extends AppCompatActivity implements FavoriteMovi
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Delete favorites
                         getContentResolver().delete(MovieContract.FavoritesEntry.CONTENT_URI, null, null);
-                        Toast.makeText(getApplicationContext(), R.string.favorites_cleared_toast, Toast.LENGTH_SHORT).show();
                         recreateActivity();
                     }
                 })

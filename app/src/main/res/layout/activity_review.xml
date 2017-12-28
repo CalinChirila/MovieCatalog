@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/list_reviews"
@@ -15,5 +15,6 @@
         android:id="@+id/tv_review_empty_state"
         style="@style/emptyStateTvStyle"
         android:text="@string/review_empty_state_text"
+        android:layout_gravity="center"
         android:visibility="gone"/>
 </FrameLayout>
